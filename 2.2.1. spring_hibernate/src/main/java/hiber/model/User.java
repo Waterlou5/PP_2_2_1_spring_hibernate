@@ -3,8 +3,10 @@ package hiber.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 public class User {
+   @OneToOne(mappedBy = "user")
+   private Car car;
 
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,8 +21,9 @@ public class User {
    @Column(name = "email")
    private String email;
 
-   public User() {}
-   
+   public User() {
+   }
+
    public User(String firstName, String lastName, String email) {
       this.firstName = firstName;
       this.lastName = lastName;
@@ -57,5 +60,24 @@ public class User {
 
    public void setEmail(String email) {
       this.email = email;
+   }
+
+   public void setCar(Car car) {
+      this.car = car;
+      car.setUser(this);
+   }
+
+   public Car getCar() {
+      return car;
+   }
+
+   @Override
+   public String toString() {
+      return "User{" +
+              ", id=" + id +
+              ", firstName='" + firstName + '\'' +
+              ", lastName='" + lastName + '\'' +
+              ", email='" + email + '\'' +
+              '}';
    }
 }
